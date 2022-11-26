@@ -18,7 +18,7 @@ jobs:
         run: ssh-keyscan -p 2000 -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: sync
         run: |-
-          rsync -avz . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/shorturl-backend/
+          rsync -avz . -e 'ssh -p 2000' ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/shorturl-backend/
       - name: restart pm2
         run: |-
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} -p 2000 'cd /root/shorturl-backend/ && pm2 restart shorturl-backend'
